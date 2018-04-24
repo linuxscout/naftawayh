@@ -11,6 +11,13 @@ u'الله',
 u'لله',
 u'بالله',
 u'والله',
+u'موسى',
+u'مريم',
+u'يونس',
+u'يوسف',
+u'يثرب',
+u'يوسف',
+u'يوسف',
 )
 
 tab_noun_context=(
@@ -56,6 +63,11 @@ tab_verb_context=(
         u"وقد",
         u"لن",
         u"لم",
+        u"قبل أن",
+        u"بعد أن",
+        u"من أن",        
+        u"إلى من",
+        
         )
 
 #------------------------
@@ -140,10 +152,6 @@ verbPattern[80] = re.compile(ur"\*\*\*%s(%s|%s|%s[^%s])"%( araby.TEH , araby.MEE
 ##		else:
 ##		  if re.compile(u"\*\*\*\*%s%s"%( araby.WAW ,araby.ALEF), re.UNICODE):
 ##		    return -100;
-#ERROR:
-#كلمات خاطئة 
-#الفئتان
-# وامرأتان
 
 # case of future verb with  araby.WAW   araby.NOON ,
 verbPattern[110] = re.compile(u"^([^\*%s])*[%s%s](.)*\*\*\*%s%s"%( araby.MEEM , araby.YEH, araby.TEH , araby.WAW , araby.NOON ), re.UNICODE)
@@ -247,16 +255,6 @@ nounPattern[1190]=re.compile(ur"[^%s]\*\*%s\*"%(u"تاينلفأو", araby.WAW )
 
 # the word contains **a* when **+a+* a is araby.ALEF
 nounPattern[1200]=re.compile(ur"\*[\*%s]%s\*"%(u"وي",araby.ALEF),re.UNICODE) 
-#ERROR
-#جعلت كلمة ننساهم  تبدو أنها ليست فعلا
-#يغشاهم
-# ازدادوا
-# وازدادوا
-# ليزدادوا
-# فاصطادوا
-# اسطاعوا
-# ويزداد
-
 
 # the word contains t**y* when **+t+* a is araby.ALEF
 nounPattern[1210]=re.compile(ur"%s\*\*%s\*"%( araby.TEH , araby.YEH),re.UNICODE) 
@@ -267,20 +265,6 @@ nounPattern[1221]=re.compile(u"%s%s([^\*%s%s])*$"%(araby.ALEF, araby.NOON ,araby
 
 # case of word ends  with  araby.WAW   araby.NOON , nounPattern[]=it hasnt  araby.YEH or  araby.TEH  on prefix
 nounPattern[1230]=re.compile(u"^([^\*%s%s%s%s])*\*"%( araby.YEH, araby.TEH ,araby.ALEF_HAMZA_ABOVE,araby.ALEF),re.UNICODE) 
-# ERRORS
-# سيحلفون
-# وسيحلفون
-# سيدخلون
-# ستذكرونهن
-# فستذكرون
-# فستعلمون
-# سيعلمون
-# فسيعلمون
-# ستغلبون
-# سيغلبون
-# سيكفرون
-# فسينغضون
-
 nounPattern[1231]=re.compile(u"%s%s([^\*%s%s])*$"%( araby.WAW , araby.NOON ,araby.ALEF, araby.YEH),re.UNICODE) 
 
 # case of word ends  with  araby.YEH  araby.NOON , nounPattern[]=it hasnt  araby.YEH or  araby.TEH  on prefix
