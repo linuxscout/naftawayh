@@ -1,80 +1,80 @@
-﻿import sys
-sys.path.append('naftawayh/lib');
+﻿#!/usr/bin/python
+# -*- coding = utf-8 -*-
+import sys
+sys.path.append('../');
 import naftawayh.wordtag 
 import pyarabic.araby as araby
 exclusive_mode=False;
 FROM_FILE=True;
 def tag_word_list(word_list):
-	counter={
-	"vn":0,
-	"n=v":0,
-	"!n!v":0,
-	"v":0,
-	"n":0,
-	"t":0,
-	"n1":0,
-	"v1":0,
-	"n2":0,
-	};
-	previous_word="";
-	previous_tag="";
-	word_count=len( word_list);
-	tagger=naftawayh.wordtag.WordTagger();
-	for word in word_list:
-		tag='';
-		verbstamp="";
-		stem="";
-		rulecodeverb=0;
-		rulecodenoun=0;
-		if tagger.is_stopword(word):
-			tag='t';
-			#print "ok1"
-		else:
-			# tagger.lightStemming(word);
-			#stem=tagger.verbstemmer.get_stem();
-			#verbstamp=tagger.verb_stamp(stem);
-			rulecodenoun=tagger.is_possible_noun(word)
-			#print rulecode;
-			if exclusive_mode:
-				if rulecodenoun<=0:
-					rulecodeverb=tagger.is_possible_verb(word);
-				else:
-					rulecodeverb=-10000;
-			else:
-				rulecodeverb=tagger.is_possible_verb(word);
-			
-			#if rulecodenoun>0:
-			#	tag+='n';
-			#if rulecodeverb>0:
-			#	tag+='v';
-			if rulecodenoun==0 and rulecodeverb==0:
-				tag="vn";
-			elif( rulecodenoun>=0 and rulecodeverb<0) or (rulecodenoun>0 and rulecodeverb==0):
-				tag="n";
-			elif (rulecodeverb>=0 and rulecodenoun<=0) or  (rulecodeverb>0 and rulecodenoun==0) :
-				tag="v";
-			elif (rulecodeverb<0 and rulecodenoun<0) :
-				tag="!n!v";
-			elif (rulecodeverb>0 and rulecodenoun>0) :
-				tag="n=v";
-			if tag=='vn':
-				#context tag
-				tag=tagger.context_analyse(previous_word,word, previous_tag);
-				if tag=='n': tag='n1';
-				if tag=='v': tag='v1';
+    counter={
+    "vn":0,
+    "n=v":0,
+    "!n!v":0,
+    "v":0,
+    "n":0,
+    "t":0,
+    "n1":0,
+    "v1":0,
+    "n2":0,
+    };
+    previous_word="";
+    word_count=len( word_list);
+    tagger=naftawayh.wordtag.WordTagger();
+    for word in word_list:
+        tag='';
+        verbstamp="";
+        stem="";
+        rulecodeverb=0;
+        rulecodenoun=0;
+        if tagger.is_stopword(word):
+            tag='t';
+            #print "ok1"
+        else:
+            # tagger.lightStemming(word);
+            #stem=tagger.verbstemmer.get_stem();
+            #verbstamp=tagger.verb_stamp(stem);
+            rulecodenoun=tagger.is_possible_noun(word)
+            #print rulecode;
+            if exclusive_mode:
+                if rulecodenoun<=0:
+                    rulecodeverb=tagger.is_possible_verb(word);
+                else:
+                    rulecodeverb=-10000;
+            else:
+                rulecodeverb=tagger.is_possible_verb(word);
+            
+            #if rulecodenoun>0:
+            #   tag+='n';
+            #if rulecodeverb>0:
+            #   tag+='v';
+            if rulecodenoun==0 and rulecodeverb==0:
+                tag="vn";
+            elif( rulecodenoun>=0 and rulecodeverb<0) or (rulecodenoun>0 and rulecodeverb==0):
+                tag="n";
+            elif (rulecodeverb>=0 and rulecodenoun<=0) or  (rulecodeverb>0 and rulecodenoun==0) :
+                tag="v";
+            elif (rulecodeverb<0 and rulecodenoun<0) :
+                tag="!n!v";
+            elif (rulecodeverb>0 and rulecodenoun>0) :
+                tag="n=v";
+            if tag=='vn':
+                #context tag
+                tag=tagger.context_analyse(previous_word,word);
+                if tag=='n': tag='n1';
+                if tag=='v': tag='v1';
 
-				if tag=='n': tag='n1';
-				if tag=='v': tag='v1';
-		counter[tag]+=1;
-		previous_word=word;
-		previous_tag=tag;
-	
-		print '\t'.join([tag,str(rulecodeverb),str(rulecodenoun),word,stem,verbstamp]).encode('utf8');
-	#statistics
-	print "all words \t", word_count;
-	for key in counter.keys():
-		print "\t".join([str(key),str(counter[key]),str(counter[key]*100/word_count)+"\%"]);
-		
+                if tag=='n': tag='n1';
+                if tag=='v': tag='v1';
+        counter[tag]+=1;
+        previous_word=word;
+    
+        print '\t'.join([tag,str(rulecodeverb),str(rulecodenoun),word,stem,verbstamp]).encode('utf8');
+    #statistics
+    print "all words \t", word_count;
+    for key in counter.keys():
+        print "\t".join([str(key),str(counter[key]),str(counter[key]*100/word_count)+"\%"]);
+        
 
 
 
@@ -83,31 +83,31 @@ filename="samples/xaa.txt";
 #filename="../samples/CCA_raw_utf8.txt";
 
 if FROM_FILE:
-	try:
-		myfile=open(filename)
-		text=(myfile.read()).decode('utf8');
-		if text==None:
-			text=u""
-	except:
-		text=u"أسلم"
-	# ALS=tashaphyne.ArabicLightStemmer();
-	word_list=araby.tokenize(text);
+    try:
+        myfile=open(filename)
+        text=(myfile.read()).decode('utf8');
+        if text==None:
+            text=u""
+    except:
+        text=u"أسلم"
+    # ALS=tashaphyne.ArabicLightStemmer();
+    word_list=araby.tokenize(text);
 
-	#word_list=set(word_list);
+    #word_list=set(word_list);
 else:
-	 word_list=(
-	 u'بالبلاد',
-	 u'بينما',
-	 u'أو',
-	 u'انسحاب',
-	 u'انعدام',
-	 u'انفجار',
-	 u'البرنامج',
-	 u'بانفعالاتها',
-	 u'العربي',
-	 u'الصرفي',
-	 u'التطرف',
-	 u'اقتصادي',
+     word_list=(
+     u'بالبلاد',
+     u'بينما',
+     u'أو',
+     u'انسحاب',
+     u'انعدام',
+     u'انفجار',
+     u'البرنامج',
+     u'بانفعالاتها',
+     u'العربي',
+     u'الصرفي',
+     u'التطرف',
+     u'اقتصادي',
 u'اضطرابا',
 u'اختصار',
 u'انتزاع',
@@ -636,6 +636,6 @@ u'يهدي',
 
 
 
-	 )
+     )
 
 tag_word_list(word_list)

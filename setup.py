@@ -5,14 +5,13 @@ from glob import glob
 # to install type:
 # python setup.py install --root=/
 
-setup (name='Naftawayh', version='0.2',
+setup (name='Naftawayh', version='0.3',
       description='Naftawayh: Arabic word tagger',
       author='Taha Zerrouki',
       author_email='taha.zerrouki@gmail.com',
       url='http://naftawayh.sourceforge.net/',
       license='GPL',
-      #Description="Naftawayh: Arabic word tagger",
-      #Platform="OS independent",
+      Description="Naftawayh: Arabic word tagger",
       package_dir={'naftawayh': 'naftawayh'},
       packages=['naftawayh'],
       # include_package_data=True,

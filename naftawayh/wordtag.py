@@ -8,7 +8,7 @@ import re
 if __name__   == "__main__":
     import sys
     sys.path.append('../')
-    sys.path.append('lib')    
+    sys.path.append('lib')
 import tashaphyne.stemming as tashaphyne
 import naftawayh.stopwords  as stopwords
 #
@@ -47,25 +47,56 @@ class WordTagger():
         self.nounstemmer.set_prefix_list(affix_const.NOMINAL_PREFIXES_LIST)
         #self.nounstemmer.infix_letters = noun_infix
         self.cache = {} # a cache to speed up the tagging process
-        
+
         # prepare verb pattern
     def __del__(self):
         """
         Delete instance and clear cache
-        
+
         """
         self.cache = {}
     def is_noun(self, word):
         """
         Return True if the word is a possible noun form
 
+        Example:
+            >>> import naftawayh.wordtag 
+            >>> word_list=(u'بالبلاد', u'بينما', u'أو', u'انسحاب', u'انعدام', 
+            u'انفجار', u'البرنامج', u'بانفعالاتها', u'العربي', u'الصرفي', 
+            u'التطرف', u'اقتصادي', )
+            >>> tagger = naftawayh.wordtag.WordTagger();        
+            >>> #test word by word
+            >>> for word in word_list:
+            >>>     if tagger.is_noun(word):
+            >>>         print(u'%s is noun'%word)
+            >>>     if tagger.is_verb(word):
+            >>>         print(u'%s is verb'%word)
+            >>>     if tagger.is_stopword(word):
+            >>>         print(u'%s is stopword'%word)
+            بالبلاد is noun
+            بينما is noun
+            بينما is verb
+            أو is noun
+            أو is verb
+            أو is stopword
+            انسحاب is noun
+            انعدام is noun
+            انفجار is noun
+            البرنامج is noun
+            بانفعالاتها is noun
+            العربي is noun
+            الصرفي is noun
+            التطرف is noun
+            اقتصادي is noun
+
+        
         @param word: word.
         @type word: unicode.
         @return: is a noun or not
         @rtype: Boolean
         """
         if word in wordtag_const.FixedNouns:
-            return True        
+            return True
         if self.is_possible_noun(word)>0:
             return True
         else:
@@ -75,6 +106,37 @@ class WordTagger():
         """
         Return True if the word is a possible verb form
 
+        Example:
+            >>> import naftawayh.wordtag 
+            >>> word_list=(u'بالبلاد', u'بينما', u'أو', u'انسحاب', u'انعدام', 
+            u'انفجار', u'البرنامج', u'بانفعالاتها', u'العربي', u'الصرفي', 
+            u'التطرف', u'اقتصادي', )
+            >>> tagger = naftawayh.wordtag.WordTagger();        
+            >>> #test word by word
+            >>> for word in word_list:
+            >>>     if tagger.is_noun(word):
+            >>>         print(u'%s is noun'%word)
+            >>>     if tagger.is_verb(word):
+            >>>         print(u'%s is verb'%word)
+            >>>     if tagger.is_stopword(word):
+            >>>         print(u'%s is stopword'%word)
+            بالبلاد is noun
+            بينما is noun
+            بينما is verb
+            أو is noun
+            أو is verb
+            أو is stopword
+            انسحاب is noun
+            انعدام is noun
+            انفجار is noun
+            البرنامج is noun
+            بانفعالاتها is noun
+            العربي is noun
+            الصرفي is noun
+            التطرف is noun
+            اقتصادي is noun
+
+        
         @param word: word.
         @type word: unicode.
         @return: is a noun or not
@@ -89,56 +151,56 @@ class WordTagger():
     def is_stopword_tag(self, guessed_tag):
         """
         decode guessed Tag, to tell if the word is stopword, not noun or verb
-        @param guessed_tag: the given word tag.  
+        @param guessed_tag: the given word tag.
         't': tool, 'v': verb, 'n' :noun, 'nv' or 'vn' unidentifed.
         @type guessed_tag: unicode .
         @return: if is stopword or not.
-        @rtype: boolean 
+        @rtype: boolean
         """
         return  guessed_tag  == 't'
     def is_verb_tag(self, guessed_tag):
         """
         decode guessed Tag, to tell if the word is verb, not noun
-        @param guessed_tag: the given word tag.  
+        @param guessed_tag: the given word tag.
         't': tool, 'v': verb, 'n' :noun, 'nv' or 'vn' unidentifed.
         @type guessed_tag: unicode .
         @return: if is verb or not.
-        @rtype: boolean 
+        @rtype: boolean
         """
         return  guessed_tag  == 'v'
 
-        
+
     def is_noun_tag(self, guessed_tag):
         """
         decode guessed Tag, to tell if the word is noun , not a verb
-        @param guessed_tag: the given word tag.  
+        @param guessed_tag: the given word tag.
         't': tool, 'v': verb, 'n' :noun, 'nv' or 'vn' unidentifed.
         @type guessed_tag: unicode .
         @return: if is noun or not.
-        @rtype: boolean 
+        @rtype: boolean
         """
         return guessed_tag  == 'n'
 
     def has_verb_tag(self, guessed_tag):
         """
         decode guessed Tag, to tell if the word has a verb tag or not
-        @param guessed_tag: the given word tag.  
+        @param guessed_tag: the given word tag.
         't': tool, 'v': verb, 'n' :noun, 'nv' or 'vn' unidentifed.
         @type guessed_tag: unicode .
         @return: if is verb or not.
-        @rtype: boolean 
+        @rtype: boolean
         """
         return ('v' in  guessed_tag or guessed_tag  == '')
 
-        
+
     def has_noun_tag(self, guessed_tag):
         """
         decode guessed Tag, to tell if the word has a noun tag or not
-        @param guessed_tag: the given word tag. 
+        @param guessed_tag: the given word tag.
          't': tool, 'v': verb, 'n' :noun, 'nv' or 'vn' unidentifed.
         @type guessed_tag: unicode .
         @return: if is noun or not.
-        @rtype: boolean 
+        @rtype: boolean
         """
         return ('n' in  guessed_tag or guessed_tag  == '')
 
@@ -158,16 +220,16 @@ class WordTagger():
         #print starword.encode('utf8')
         word_nm = self.verbstemmer.get_unvocalized()
         guessed_word = self.guess_stem(word_nm)
-        
+
 
     # HAMZA BELOW araby.ALEF
         if wordtag_const.verbPattern[100].search(word):
             return 100
-    # case of more than 5 original letters, 
+    # case of more than 5 original letters,
     # a verb can't have more then 4 letters root.
-    # أية كلمة بها أكثر من 5 حروف أصلية 
+    # أية كلمة بها أكثر من 5 حروف أصلية
 # ليست فعلا لانّ الافعال جذورها لا تتعدى أربعة
-        if starword.count('*')>4: 
+        if starword.count('*')>4:
             return 210
         elif wordtag_const.verbPattern[121].search(word):
             return 121
@@ -179,12 +241,12 @@ class WordTagger():
     # or  araby.NOON , is a verb and not a noun
         if wordtag_const.verbPattern[10].match(word_nm):
             return -10
-    # the word is started by  araby.YEH, 
+    # the word is started by  araby.YEH,
     # before some letters is a verb and not a noun
         if wordtag_const.verbPattern[20].match(word_nm):
             return -20
 
-    # ro do verify this case, 
+    # ro do verify this case,
     # هذه الحالة تتناقض مع حالة الاستفعال في الأسماء
     #يمكن حلها بضبط عدد النجوم إلى ثلاثة
     #the word is like inf3l pattern
@@ -213,15 +275,15 @@ class WordTagger():
 
             return -70
 
-    # the word contains ***t when **+t+* t is  araby.TEH 
-    # if  araby.TEH  is followed by  araby.MEEM , araby.ALEF, araby.NOON 
+    # the word contains ***t when **+t+* t is  araby.TEH
+    # if  araby.TEH  is followed by  araby.MEEM , araby.ALEF, araby.NOON
     # تم، تما، تن، تا، تني
     # حالة تنا غير مدرجة
         if wordtag_const.verbPattern[80].search(starword) :
             return -80
 
     #To reDo
-    ### case of ***w  w is  araby.WAW , this case is a verb, 
+    ### case of ***w  w is  araby.WAW , this case is a verb,
     ### the case of ***w* is a noun
     ##    if wordtag_const.verbPattern[].search(u"\*\*\*%s[^\*%s]"%
     #( araby.WAW , araby.NOON ), starword):
@@ -233,10 +295,10 @@ class WordTagger():
     #( araby.WAW , araby.ALEF), starword):
     ##            return -100
 
-    # case of future verb with  araby.WAW   araby.NOON , 
+    # case of future verb with  araby.WAW   araby.NOON ,
         if wordtag_const.verbPattern[110].search(starword):
             return -110
-    # case of future verb with araby.ALEF  araby.NOON , 
+    # case of future verb with araby.ALEF  araby.NOON ,
         if wordtag_const.verbPattern[115].search(starword):
             return -115
 
@@ -261,18 +323,18 @@ class WordTagger():
 ##
 ##            return -150
 
-    # the word has suffix TM ( araby.TEH   araby.MEEM )  
+    # the word has suffix TM ( araby.TEH   araby.MEEM )
     #   and two original letters at list, is a verb
         if wordtag_const.verbPattern[170].search(starword) and\
             starword.count("*") >= 2:
             return -170
-    # the word ends with an added  araby.TEH 
+    # the word ends with an added  araby.TEH
         if wordtag_const.verbPattern[180].search(guessed_word):
             return -180
     # the word starts with  an added  araby.YEH
         if wordtag_const.verbPattern[190].search(guessed_word):
             return -190
-    # the word starts with   araby.TEH  and ends with  araby.TEH 
+    # the word starts with   araby.TEH  and ends with  araby.TEH
     # not araby.ALEF  araby.TEH .
         if wordtag_const.verbPattern[200].search(starword) :
             return -200
@@ -284,7 +346,7 @@ class WordTagger():
         This function return True, if the word is valid, else, return False
         A word is not valid verb if :
           - minimal lenght : 3
-          - starts with araby.ALEF_MAKSURA, araby.WAW_HAMZA, araby.YEH_HAMZA, 
+          - starts with araby.ALEF_MAKSURA, araby.WAW_HAMZA, araby.YEH_HAMZA,
             HARAKAT
           - contains :  araby.TEH_MARBUTA
           - contains  araby.ALEF_MAKSURA at the began or middle.
@@ -301,11 +363,11 @@ class WordTagger():
         starword = self.nounstemmer.get_starword()
         word_nm = self.nounstemmer.get_unvocalized()
 
-    # case of more than 5 original letters, 
+    # case of more than 5 original letters,
     #a verb can't have more then 4 letters root.
-    # أية كلمة بها أكثر من 5 حروف أصلية 
+    # أية كلمة بها أكثر من 5 حروف أصلية
 #  ليست فعلا لانّ الافعال جذورها لا تتعدى أربعة
-        if starword.count('*')>4: 
+        if starword.count('*')>4:
             return -2010
         if wordtag_const.nounPattern[1000].search(word):
             return -1000
@@ -333,23 +395,23 @@ class WordTagger():
         elif wordtag_const.nounPattern[1060].match(word_nm):
             return -1060
 
-    # the word contains three araby.ALEF, 
+    # the word contains three araby.ALEF,
     # the kast araby.ALEF musn't be at end
         if wordtag_const.nounPattern[1070].match(word_nm):
             return -1070
 
-    # the word is started by beh, before BEH, FEH, araby.MEEM 
+    # the word is started by beh, before BEH, FEH, araby.MEEM
     #is a noun and not a verb
         if wordtag_const.nounPattern[1080].match(word_nm):
             return -1080
 
-    # the word is started by  araby.MEEM , before BEH, FEH, araby.MEEM 
+    # the word is started by  araby.MEEM , before BEH, FEH, araby.MEEM
     #is a noun and not a verb
         if wordtag_const.nounPattern[1090].match(word_nm):
             return -1090
 
     # the word is started  by araby.ALEF araby.LAM
-    # and the  original letters are more than two, 
+    # and the  original letters are more than two,
         if wordtag_const.nounPattern[1120].match(word_nm) \
          or wordtag_const.nounPattern[1121].match(word_nm):
             mini = word_nm.find(araby.ALEF+araby.LAM)
@@ -378,15 +440,15 @@ class WordTagger():
           and starword.count('*') >= 3:
             return -1140
 
-    # case of  araby.MEEM  folowed by t, araby.NOON , 
+    # case of  araby.MEEM  folowed by t, araby.NOON ,
     # st, has two original letters in folloing
         if wordtag_const.nounPattern[1145].search(starword) \
            and starword.count('*') >= 2:
             return -1145
 
 
-    # the word is finished by araby.ALEF  araby.TEH 
-    # and the  original letters are more than two, 
+    # the word is finished by araby.ALEF  araby.TEH
+    # and the  original letters are more than two,
         if wordtag_const.nounPattern[1150].search(starword) \
            and starword.count('*')  >=   3:
             return -1150
@@ -399,11 +461,11 @@ class WordTagger():
         if wordtag_const.nounPattern[1170].search(starword) :
             return -1170
 
-    # the word contains al*w* when ALEF-LAM+*+ WAW +*  w is WAW 
+    # the word contains al*w* when ALEF-LAM+*+ WAW +*  w is WAW
         if wordtag_const.nounPattern[1180].search(starword) :
             return -1180
 
-    # the word contains ***w* when ***+ WAW +* w is WAW 
+    # the word contains ***w* when ***+ WAW +* w is WAW
         if wordtag_const.nounPattern[1190].search(starword) :
             return -1190
 
@@ -434,20 +496,20 @@ class WordTagger():
             return -1230
 
     # the word is finished by WAW-NOON-ALEF-NOON, YEH-NOON ,
-    # and not started by ALEF_HAMZA_ABOVE or YEH or TEH or NOON, 
+    # and not started by ALEF_HAMZA_ABOVE or YEH or TEH or NOON,
     # and the stem length is more than 2 letters
-    # and not have verb prefixes  araby.WAW , FEH, araby.LAM, araby.SEEN 
+    # and not have verb prefixes  araby.WAW , FEH, araby.LAM, araby.SEEN
 
     #ToDo 2 avoid فكان وفزين cases
         if wordtag_const.nounPattern[1100].match(word_nm):
             if not wordtag_const.nounPattern[1101].match(word_nm):
                 return -1100
-        return 200 
+        return 200
 
     def guess_stem(self, word):
         """
         Detetect affixed letters based or phonetic root composition.
-        In Arabic language, there are some letters which can't 
+        In Arabic language, there are some letters which can't
         be adjacent in a root.
         This function return True, if the word is valid, else, return False
 
@@ -483,29 +545,29 @@ class WordTagger():
 
 
     # # treat two suffixe letters
-        # bisuffixes_letters = (araby.KAF+araby.MEEM , araby.KAF+araby.NOON , 
+        # bisuffixes_letters = (araby.KAF+araby.MEEM , araby.KAF+araby.NOON ,
         #    araby.HEH+araby.MEEM , araby.HEH+araby.NOON )
 
         # bisuffixes_forbiden = {
-        # araby.HEH+araby.MEEM :(araby.ALEF_HAMZA_ABOVE, araby.HAMZA, 
+        # araby.HEH+araby.MEEM :(araby.ALEF_HAMZA_ABOVE, araby.HAMZA,
         # araby.WAW_HAMZA,
-         #~ araby.YEH_HAMZA, araby.BEH, araby.THEH, araby.HAH, araby.KHAH, 
+         #~ araby.YEH_HAMZA, araby.BEH, araby.THEH, araby.HAH, araby.KHAH,
          #~ araby.SAD, araby.DAD, araby.TAH, araby.ZAH, araby.AIN,
-        #~ araby.GHAIN, araby.HEH, araby.YEH), 
-        #~ # araby.KAF+araby.MEEM :(araby.ALEF_HAMZA_ABOVE, araby.HAMZA, 
+        #~ araby.GHAIN, araby.HEH, araby.YEH),
+        #~ # araby.KAF+araby.MEEM :(araby.ALEF_HAMZA_ABOVE, araby.HAMZA,
         #~ araby.WAW_HAMZA, araby.YEH_HAMZA, araby.BEH, araby.THEH, araby.JEEM,
-        #~ araby.KHAH, araby.ZAIN, araby.SEEN , araby.SHEEN, araby.DAD, 
-        #~ araby.TAH, araby.ZAH, araby.GHAIN, araby.FEH, araby.QAF, araby.KAF, 
-        #~ araby.LAM, araby.NOON , araby.HEH, araby.YEH), 
-        #~ # araby.HEH+araby.NOON :(araby.ALEF_HAMZA_ABOVE, araby.HAMZA, 
+        #~ araby.KHAH, araby.ZAIN, araby.SEEN , araby.SHEEN, araby.DAD,
+        #~ araby.TAH, araby.ZAH, araby.GHAIN, araby.FEH, araby.QAF, araby.KAF,
+        #~ araby.LAM, araby.NOON , araby.HEH, araby.YEH),
+        #~ # araby.HEH+araby.NOON :(araby.ALEF_HAMZA_ABOVE, araby.HAMZA,
         #~ araby.WAW_HAMZA, araby.YEH_HAMZA, araby.BEH, araby.THEH, araby.JEEM,
-        #~ araby.HAH, araby.KHAH, araby.SAD, araby.DAD, araby.TAH, araby.ZAH, 
-        #~ araby.AIN, araby.GHAIN, araby.HEH, araby.YEH), 
-        #~ # araby.KAF+araby.NOON :(araby.ALEF_HAMZA_ABOVE, araby.HAMZA, 
+        #~ araby.HAH, araby.KHAH, araby.SAD, araby.DAD, araby.TAH, araby.ZAH,
+        #~ araby.AIN, araby.GHAIN, araby.HEH, araby.YEH),
+        #~ # araby.KAF+araby.NOON :(araby.ALEF_HAMZA_ABOVE, araby.HAMZA,
         #~ araby.WAW_HAMZA, araby.YEH_HAMZA, araby.BEH, araby.THEH, araby.JEEM,
         #~ araby.HAH, araby.KHAH, araby.THAL, araby.SHEEN, araby.DAD, araby.TAH,
         #~ araby.ZAH, araby.AIN, araby.GHAIN, araby.QAF, araby.KAF, araby.NOON ,
-        #~ araby.HEH, araby.YEH), 
+        #~ araby.HEH, araby.YEH),
 
             # }
     ##    word_guess = word
@@ -522,12 +584,12 @@ class WordTagger():
 
         # suffixes_forbiden = {
         # araby.TEH :(araby.THEH, araby.JEEM, araby.DAL, araby.THAL, araby.ZAIN,
-        # araby.SHEEN, araby.TAH, araby.ZAH), 
+        # araby.SHEEN, araby.TAH, araby.ZAH),
         # araby.KAF:(araby.THEH, araby.JEEM, araby.KHAH, araby.THAL, araby.TAH,
-        # araby.ZAH, araby.GHAIN, araby.QAF), 
-        # araby.HEH:(araby.TEH , araby.HAH, araby.KHAH, araby.DAL, araby.REH, 
-        # araby.SEEN , araby.SHEEN, araby.SAD, araby.ZAH, 
-        # araby.AIN, araby.GHAIN), 
+        # araby.ZAH, araby.GHAIN, araby.QAF),
+        # araby.HEH:(araby.TEH , araby.HAH, araby.KHAH, araby.DAL, araby.REH,
+        # araby.SEEN , araby.SHEEN, araby.SAD, araby.ZAH,
+        # araby.AIN, araby.GHAIN),
             # }
         word = word_guess
         c_last = word[-1:]
@@ -561,14 +623,39 @@ class WordTagger():
     def context_analyse(self, word_one, word_two):
         """
         Detect the word type according to the previous word.
+        
+        Example:
+            >>> import naftawayh.wordtag 
+            >>> word_list=(u'بالبلاد', u'بينما', u'أو', u'انسحاب', u'انعدام', 
+            u'انفجار', u'البرنامج', u'بانفعالاتها', u'العربي', u'الصرفي', 
+            u'التطرف', u'اقتصادي', )
+            >>> tagger = naftawayh.wordtag.WordTagger();
+            >>> previous_word=""
+            >>> print (" **** test words in context***")
+            >>> # test words in context
+            >>> for word in word_list:
+            >>>     tag=tagger.context_analyse(previous_word,word);
+            >>>     print(u"%s from context is %s "%(word,tag))
+            >>>     previous_word=word;
+            **** test words in context***
+            بالبلاد from context is vn 
+            بينما from context is vn 
+            أو from context is vn 
+            انسحاب from context is vn 
+            انعدام from context is vn 
+            انفجار from context is vn 
+            البرنامج from context is vn 
+            بانفعالاتها from context is vn 
+            العربي from context is vn 
+            الصرفي from context is vn 
+            التطرف from context is vn 
+            اقتصادي from context is vn 
+
+        
         @param word_one: the previous word.
         @type word_one: unicode.
         @param word_two: the word to detect.
         @type word_two: unicode.
-        @param tag_one: the previous word tag.
-        @type tag_one: unicode ('t', 'n', 'v', 'vn').
-        @param tag_two: the current word.
-        @type tag_two: unicode.
 
         @return: a code of word type ('v': verb, 'vn': verb& noun, 'n': noun)
         @rtype: unicode
@@ -586,9 +673,9 @@ class WordTagger():
         # إذا كانت الكلمة الاولى فعلا، ينبغي أن تكون الثانية ليست فعلا
         # غلا أن تكون معطوفة أو مسبقوة بلام
         # مثل يأكل ليشبع، يأكل ويشرب،
-        # يمكن أن يتوالى فعلان في حالة 
+        # يمكن أن يتوالى فعلان في حالة
         # أفعال الشروع والمقاربة.
-        # بعد التجارب تبيّن أنّ هذه الحالة غير ممكنة في حالات مثل 
+        # بعد التجارب تبيّن أنّ هذه الحالة غير ممكنة في حالات مثل
         # من زرع حصد، ومن يجتهد ينجح
         #في انتظار إيجاد طريقة أفضل تبنى على تحليل أكثر للسياق
         # elif tag_one  == u"v" and tag_two  == 'vn' and\
@@ -604,6 +691,37 @@ class WordTagger():
         @param word: the previous word.
         @type word: unicode.
 
+        Example:
+            >>> import naftawayh.wordtag 
+            >>> word_list=(u'بالبلاد', u'بينما', u'أو', u'انسحاب', u'انعدام', 
+            u'انفجار', u'البرنامج', u'بانفعالاتها', u'العربي', u'الصرفي', 
+            u'التطرف', u'اقتصادي', )
+            >>> tagger = naftawayh.wordtag.WordTagger();        
+            >>> #test word by word
+            >>> for word in word_list:
+            >>>     if tagger.is_noun(word):
+            >>>         print(u'%s is noun'%word)
+            >>>     if tagger.is_verb(word):
+            >>>         print(u'%s is verb'%word)
+            >>>     if tagger.is_stopword(word):
+            >>>         print(u'%s is stopword'%word)
+            بالبلاد is noun
+            بينما is noun
+            بينما is verb
+            أو is noun
+            أو is verb
+            أو is stopword
+            انسحاب is noun
+            انعدام is noun
+            انفجار is noun
+            البرنامج is noun
+            بانفعالاتها is noun
+            العربي is noun
+            الصرفي is noun
+            التطرف is noun
+            اقتصادي is noun
+
+        
         @return: is the word a stop word
         @rtype: Boolean
         """
@@ -618,9 +736,9 @@ class WordTagger():
         return a guessed tag
         @param word: the given word.
         @type word: unicode.
-        @return: a tag : 't': tool, 'v': verb, 
+        @return: a tag : 't': tool, 'v': verb,
         'n' :noun, 'nv' or 'vn' unidentifed.
-        @rtype: unicode 
+        @rtype: unicode
         """
         if not word:
             return ""
@@ -639,27 +757,51 @@ class WordTagger():
                         tag += 'v'
                 # add the found tag to Cache.
                 self.cache[word] = tag
-            # if the tagging give an ambigous tag, 
+            # if the tagging give an ambigous tag,
             # we can do an contextual analysis
-            # the contextual tag is not saved in Cache, 
+            # the contextual tag is not saved in Cache,
             # because it can be ambigous.
-            # for example  
+            # for example
             # في ضرب : is a noun
             # قد ضرب : is a verb
             if tag in ("", "vn", "nv"):
                 tag = self.context_analyse(previous, word)+"2"
                 if tag in ("", "1", "vn1", "nv1"):
-                    tag = self.context_analyse(u" ".join([second_previous, previous]), word)+"3"                    
-        return tag       
+                    tag = self.context_analyse(u" ".join([second_previous, previous]), word)+"3"
+        return tag
     def word_tagging(self, word_list):
         """
         Guess word classification, into verb, noun, stopwords.
         return al list of guessed tags
+        
+        Example:
+            >>> import naftawayh.wordtag 
+            >>> word_list=(u'بالبلاد', u'بينما', u'أو', u'انسحاب', u'انعدام', 
+            u'انفجار', u'البرنامج', u'بانفعالاتها', u'العربي', u'الصرفي', 
+            u'التطرف', u'اقتصادي', )
+            >>> tagger = naftawayh.wordtag.WordTagger();
+            >>> # test all words
+            >>> list_tags = tagger.word_tagging(word_list)
+            >>> for word, tag in zip(word_list, list_tags):
+            >>>     print word, tag
+            بالبلاد n
+            بينما vn3
+            أو t
+            انسحاب n
+            انعدام n
+            انفجار n
+            البرنامج n
+            بانفعالاتها n
+            العربي n
+            الصرفي n
+            التطرف n
+            اقتصادي n
+        
         @param word_list: the given word lists.
         @type word_list: unicode list.
-        @return: a tag list : 't': tool, 'v': verb, 
+        @return: a tag list : 't': tool, 'v': verb,
         'n' :noun, 'nv' or 'vn' unidentifed.
-        @rtype: unicode list 
+        @rtype: unicode list
         """
         if len(word_list)  == 0:
             return []
@@ -684,17 +826,17 @@ class WordTagger():
                             tag += 'v'
                     # add the found tag to Cache.
                     self.cache[word] = tag
-                # if the tagging give an ambigous tag, 
+                # if the tagging give an ambigous tag,
                 # we can do an contextual analysis
-                # the contextual tag is not saved in Cache, 
+                # the contextual tag is not saved in Cache,
                 # because it can be ambigous.
-                # for example  
+                # for example
                 # في ضرب : is a noun
                 # قد ضرب : is a verb
                 if tag in ("", "vn", "nv"):
                     tag = self.context_analyse(previous, word)+"3"
                     if tag in ("", "1", "vn1", "nv1"):
-                        tag = self.context_analyse(u" ".join([second_previous, previous]), word)+"2"                    
+                        tag = self.context_analyse(u" ".join([second_previous, previous]), word)+"2"
                 list_result.append(tag)
                 second_previous = previous
                 previous = word_nm
@@ -706,13 +848,13 @@ def main():
     """
     tagger = WordTagger()
     word_list = (
-    u"باستحقاقه", 
-    u"ومعرفته", 
- u"تأسست", 
-u"وتأسست", 
- u"التجاوزات", 
- u"تجاوزات", 
- u'التعريف', 
+    u"باستحقاقه",
+    u"ومعرفته",
+ u"تأسست",
+u"وتأسست",
+ u"التجاوزات",
+ u"تجاوزات",
+ u'التعريف',
  )
 
     if len(word_list)  == 0:
@@ -720,14 +862,14 @@ u"وتأسست",
     else:
         list_result = []
         previous = u""
-        #~ previous_tag  = ""        
+        #~ previous_tag  = ""
         for word in word_list:
             tag = ''
             if tagger.is_stopword(word):
                 tag = 't'
             else:
-                print word.encode('utf8'), 
-                print tagger.is_possible_noun(word)            
+                print word.encode('utf8'),
+                print tagger.is_possible_noun(word)
                 if tagger.is_noun(word):
                     tag += 'n'
                 print word.encode('utf8'), tagger.is_possible_verb(word)
@@ -740,6 +882,6 @@ u"وتأسست",
             #~ previous_tag  = tag
         for item  in list_result:
             print ("%s\t%s" % (item['word'], item['tag'])).encode('utf8')
-    
+
 if __name__   == "__main__":
     main()

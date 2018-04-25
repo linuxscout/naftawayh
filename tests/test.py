@@ -1,35 +1,43 @@
-﻿from ar_adv import *
-words=[u"سفاهة",
-u"فسيكفيكهم",
-u"غفورا",
-u"وازدجر",
-u"استيسر",
-u"يابسات",
-u"ألتناهم",
-u"بسحركما",
-u"بلادهتما",
-u"أسقيناكموه",
-u"ألهاكم",
-u"سماكم",
-u"أسقيناكم",
-u"مكروها",
-u"للمقوين",
-u"سواها",
+﻿#!/usr/bin/python
+# -*- coding = utf-8 -*-
+import sys
+sys.path.append('../');
+import naftawayh.wordtag 
 
-]
-verb_prefix=u"مأسفلونيتاكب"
-verb_infix=u"اتويدط"
-verb_suffix=u"امتةكنهوي"
-verb_max_prefix=6
-verb_max_suffix=5
-##word="fistf3l"
-for word in words:
-    print is_possible_verb(word);
-    print is_possible_noun(word);
-    word_nm=ar_strip_marks_keepshadda(word);
+word_list=(
+     u'بالبلاد',
+     u'بينما',
+     u'أو',
+     u'انسحاب',
+     u'انعدام',
+     u'انفجار',
+     u'البرنامج',
+     u'بانفعالاتها',
+     u'العربي',
+     u'الصرفي',
+     u'التطرف',
+     u'اقتصادي',
+     )
 
-    starword=transformToStars(word_nm,verb_prefix,verb_suffix,verb_infix,verb_max_prefix,verb_max_suffix);
-    print starword.encode("utf8")
-##    print "\t",
-    v_word=validate_affixes(starword);
-    print v_word.encode("utf8")
+tagger = naftawayh.wordtag.WordTagger();
+#test word by word
+print (" **** test word by word ***")
+for word in word_list:
+    if tagger.is_noun(word):
+        print(u'%s is noun'%word)
+    if tagger.is_verb(word):
+        print(u'%s is verb'%word)
+    if tagger.is_stopword(word):
+        print(u'%s is stopword'%word)
+previous_word=""
+print (" **** test words in context***")
+# test words in context
+for word in word_list:
+    tag=tagger.context_analyse(previous_word,word);
+    print(u"%s from context is %s "%(word,tag))
+    previous_word=word;
+print (" **** test all words ***")
+# test all words
+list_tags = tagger.word_tagging(word_list)
+for word, tag in zip(word_list, list_tags):
+    print word, tag

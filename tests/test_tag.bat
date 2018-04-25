@@ -1,1 +1,0 @@
-python -m cProfile test_wordtag_file.py >output/wordtag.txt

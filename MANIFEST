@@ -1,0 +1,17 @@
+setup.py
+naftawayh/affix_const.py
+naftawayh/ar_stopwords.py
+naftawayh/stopwords.py
+naftawayh/wordtag_const.py
+naftawayh/affix_const.pyc
+naftawayh/ar_stowords.py
+naftawayh/stopwords.pyc
+naftawayh/wordtag.pyc
+naftawayh/arabic_const.py
+naftawayh/create_verbstamp.py
+naftawayh/specialwords.py
+naftawayh/verb_dictionary.py
+naftawayh/ar_ctype.py
+naftawayh/__init__.py
+naftawayh/verb_stamp.py
+naftawayh/wordtag.py
