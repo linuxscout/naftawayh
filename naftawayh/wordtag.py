@@ -4,12 +4,18 @@
 Arabic Word Type Guessing:
 This class can identify the type of word (noun, verb, prepostion).
 """
+from __future__ import (
+    absolute_import,
+    print_function,
+    unicode_literals,
+    division,
+    )
 import re
 if __name__   == "__main__":
     import sys
     sys.path.append('../')
-    sys.path.append('lib')
-import tashaphyne.stemming as tashaphyne
+    #~ sys.path.append('lib')
+import tashaphyne.stemming as tasha
 import naftawayh.stopwords  as stopwords
 #
 #from arabic_const import *
@@ -24,7 +30,7 @@ class WordTagger():
     """
     def __init__(self, ):
         self.word = u""
-        self.verbstemmer = tashaphyne.ArabicLightStemmer()
+        self.verbstemmer = tasha.ArabicLightStemmer()
         # prepare the verb stemmer
         #verb_prefix = u"أسفلونيتا"
         #verb_infix = u"اتويدط"
@@ -38,7 +44,7 @@ class WordTagger():
         self.verbstemmer.set_prefix_list(affix_const.VERBAL_PREFIX_LIST)
         #self.verbstemmer.infix_letters = verb_infix
         # prepare the noun stemmer
-        self.nounstemmer = tashaphyne.ArabicLightStemmer()
+        self.nounstemmer = tasha.ArabicLightStemmer()
         #noun_prefix = u"مأسفلونيتاكب"
         #noun_infix = u"اتويدط"
         #noun_suffix = u"امتةكنهوي"
@@ -319,7 +325,7 @@ class WordTagger():
 # لا تعمل مع كلمة البرنامج
 ##    # the word contains a****  a is araby.ALEF is a verb
 ##        if wordtag_const.verbPattern[].search(\
-#          ur"^([^\*])*%s(\*\*\*\*)"%(araby.ALEF), starword) :
+#          u"^([^\*])*%s(\*\*\*\*)"%(araby.ALEF), starword) :
 ##
 ##            return -150
 
@@ -429,7 +435,7 @@ class WordTagger():
                 maxi = word_nm2.rfind('*')
                 if maxi >= 0:
                     word_nm2 = word_nm2[:maxi+1]
-                    word_nm2 = re.sub(ur"[^%s]" % infixes, '*', word_nm2)
+                    word_nm2 = re.sub(u"[^%s]"%infixes, '*', word_nm2)
                 if word_nm2.count('*') >= 3:
                     return -1120
                 if word_nm2.find(u'*%s*' % araby.ALEF) >= 0:
@@ -725,11 +731,9 @@ class WordTagger():
         @return: is the word a stop word
         @rtype: Boolean
         """
-        return  stopwords.STOPWORDS.has_key(word) or stopwords.STOPWORDS.has_key(araby.strip_tashkeel(word))
-        #if word in STOPWORDS.keys():
-        #    return True
-        #else:
-        #    return False
+        word_nm = araby.strip_tashkeel(word)
+        return  word in stopwords.STOPWORDS or word_nm in stopwords.STOPWORDS
+
     def one_word_tagging(self, word, previous = u"", second_previous = u""):
         """
         Guess word classification, into verb, noun, stopwords.
@@ -858,7 +862,7 @@ u"وتأسست",
  )
 
     if len(word_list)  == 0:
-        print 'emplty wordlist'
+        print('emplty wordlist')
     else:
         list_result = []
         previous = u""
@@ -868,11 +872,11 @@ u"وتأسست",
             if tagger.is_stopword(word):
                 tag = 't'
             else:
-                print word.encode('utf8'),
-                print tagger.is_possible_noun(word)
+                print(word, end='')
+                print(tagger.is_possible_noun(word))
                 if tagger.is_noun(word):
                     tag += 'n'
-                print word.encode('utf8'), tagger.is_possible_verb(word)
+                print(word, tagger.is_possible_verb(word))
                 if tagger.is_verb(word):
                     tag += 'v'
                 if tag in ("", "nv"):
@@ -881,7 +885,7 @@ u"وتأسست",
             previous = word
             #~ previous_tag  = tag
         for item  in list_result:
-            print ("%s\t%s" % (item['word'], item['tag'])).encode('utf8')
+            print ("%s\t%s" % (item['word'], item['tag']))
 
 if __name__   == "__main__":
     main()

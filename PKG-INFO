@@ -1,0 +1,11 @@
+Metadata-Version: 0.3
+Name:Naftawayh
+Version: 0.3
+Summary:  Naftawayh - Arabic word tagger
+Home-page: http://naftawayh.sourceforge.net/
+Author: Taha Zerrouki
+Author-email: taha.zerrouki@gmail.com
+License: GPL
+Description: Arabic word tagger
+Platform: Os-independent
+
