@@ -1,0 +1,2 @@
+pyarabic>=0.6.2
+tashaphyne>=0.3.1
