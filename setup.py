@@ -1,20 +1,21 @@
-#! /usr/bin/python
-from distutils.core import setup
-from glob import glob
+#!/usr/bin/python
+from setuptools import setup
 
 # to install type:
 # python setup.py install --root=/
 
-setup (name='Naftawayh', version='0.3',
+setup(name='Naftawayh', version='0.3',
       description='Naftawayh: Arabic word tagger',
       author='Taha Zerrouki',
       author_email='taha.zerrouki@gmail.com',
       url='http://naftawayh.sourceforge.net/',
       license='GPL',
-      Description="Naftawayh: Arabic word tagger",
       package_dir={'naftawayh': 'naftawayh'},
       packages=['naftawayh'],
-      # include_package_data=True,
+      install_requires=[ 'pyarabic','tashaphyne',
+      ],   
+      include_package_data=True,
+
       package_data = {
         'naftawayh': ['doc/*.*','doc/html/*'],
         },
