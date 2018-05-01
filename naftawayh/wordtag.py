@@ -749,7 +749,7 @@ class WordTagger():
         else:
             word_nm = araby.strip_tashkeel(word)
             tag = ''
-            if self.cache.has_key(word):
+            if word in self.cache:
                 tag = self.cache.get(word, '')
             else:
                 if self.is_stopword(word):
@@ -818,7 +818,7 @@ class WordTagger():
                 word_nm = araby.strip_tashkeel(word)
                 word_nm = araby.strip_tatweel(word_nm)
                 tag = ''
-                if self.cache.has_key(word):
+                if word in self.cache:
                     tag = self.cache.get(word, '')
                 else:
                     if self.is_stopword(word_nm):
