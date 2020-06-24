@@ -346,31 +346,6 @@ ENV/
 /doc/تخمين الأسماء والأفعال.txt
 /doc/لموجز في قواعد اللغة العربية ا.doc
 /doc/class-tree.html
-/guessword/__init__.py
-/guessword/affix_const.py
-/guessword/ar_ctype.py
-/guessword/ar_stopwords.py
-/guessword/ar_stowords.py
-/guessword/arabic_const.py
-/guessword/arabicstopwords/AUTHORS
-/guessword/arabicstopwords/COPYING
-/guessword/arabicstopwords/ChangeLog
-/guessword/arabicstopwords/INSTALL
-/guessword/arabicstopwords/TODO.txt
-/guessword/arabicstopwords/__init__.py
-/guessword/arabicstopwords/data/stopword0.3.csv
-/guessword/arabicstopwords/data/stopword0.3.xls
-/guessword/arabicstopwords/data/stopwords.db
-/guessword/arabicstopwords/data/stopwords_allforms.txt
-/guessword/arabicstopwords/stopwords.py
-/guessword/arabicstopwords/tools/ar_stowords.py
-/guessword/arabicstopwords/tools/arabic_const.py
-/guessword/arabicstopwords/tools/arabicchars.py
-/guessword/arabicstopwords/tools/convert_asw_2db.py
-/guessword/arabicstopwords/tools/generate_stopwords_forms.py
-/guessword/create_verbstamp.py
-/guessword/specialwords.py
-/guessword/stopwords.py
-/guessword/verb_dictionary.py
-/guessword/verb_stamp.py
-/guessword/wordtag.py
+/guessword/
+/doc/html
+/tests/output
