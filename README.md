@@ -1,4 +1,5 @@
-# نفطويه: تصنيف الكلمات العربية Naftawayh: Arabic Word Tagger
+# نفطويه: تصنيف الكلمات العربية
+## Naftawayh: Arabic Word Tagger
 Naftawayh is a python library for Arabic word tagging (word classification) into types (nouns, verbs, stopwords), which is useful in language processing, especially for text mining. Naftawayh works according to the Arabic word structure, and the ability to guess the word class, through certain signs. For example, a word which ends Teh Marbuta, is a noun. Hamza Below Alef, class the word as a noun. We can identify many kins of words, by patterns especially for verbs in present tense and defined words. 
 
 نفطويه هو برنامج ومكتبة لتصنيف الكلمات إلى أنواعها (اسم، فعل، حرف)، ويفيد في المعالجة الآلية للغة وخصوصا التنقيب عن المعلومات، ومبدأه يعمل على بنية الكلمة العربية، وقدرتنا على تخمين نوعها، من خلال علامات معينة. فمثلا كل كلمة تنتهي بتاء مربوطة فهي اسم، وكل كلمة فيها همزة تحت الألف اسم. ويمكننا التعرف على كثير من الكلمات المعرّفة بالألف واللام، وبعض أنماط الأفعال المضارعة. 
@@ -40,14 +41,7 @@ or in bibtex format
 ```
 
 
-## مزايا
-* 
-
-## Features
-* 
-
-Applications
-====
+### Applications
 * Text mining.
 * Text summarizing.
 * Sentences identification.
@@ -55,7 +49,7 @@ Applications
 * Morphological analysis acceleration.
 * Extraction of ngrams..
 
-ـطبيقات 
+### تطبيقات 
 ====
 * التنقيب عن المعلومات.
 * تلخيص النص.
@@ -64,13 +58,13 @@ Applications
 * تسريع التحليل الصرفي.
 * استخراج المصطلحات والمسكوكات والمتلازمات.
 
-من هو نفطويه Who is Naftawayh
-====
+### من هو نفطويه Who is Naftawayh
+
 ![Who is Naftawayh?](images/naftawayh_sample.png "Who is Naftawayh?")
 
 
-Demo جرّب
-====
+### Demo جرّب
+
 يمكن التجربة على [موقع مشكال](http://tahadz.com/mishkal)
 ، اختر أدوات، ثم استخلاص ثم تصنيف
 You can test it on [Mishkal Site](http://tahadz.com/mishkal), choose: Tool > extraction > Classify.
@@ -78,21 +72,20 @@ You can test it on [Mishkal Site](http://tahadz.com/mishkal), choose: Tool > ext
 
 
 
-Installation
-=====
+### Installation
+
 ```
 pip install naftawayh
 ```    
     
-Usage
-=====
+### Usage
+
 ```python
 import naftawayh.wordtag as wordtag
 ```
-Example
-=====
+
 Test word list
-======
+
 ```python
 >>> import naftawayh.wordtag 
 >>> word_list=(u'بالبلاد', u'بينما', u'أو', u'انسحاب', u'انعدام', 
@@ -116,8 +109,8 @@ u'التطرف', u'اقتصادي', )
 التطرف n
 اقتصادي n
 ```
-Test word by word
-======
+* Test word by word
+
 ```python
 >>> import naftawayh.wordtag 
 >>> word_list=(u'بالبلاد', u'بينما', u'أو', u'انسحاب', u'انعدام', 
@@ -149,8 +142,8 @@ u'التطرف', u'اقتصادي', )
 اقتصادي is noun
 
 ```
-Test word in context
-======
+* Test word in context
+
 ```python
 >>> import naftawayh.wordtag 
 >>> word_list=(u'بالبلاد', u'بينما', u'أو', u'انسحاب', u'انعدام', 
@@ -179,14 +172,6 @@ u'التطرف', u'اقتصادي', )
 اقتصادي from context is vn 
 
 ```
-Package Documentation
-=====
-[https://pythonhosted.org/naftawayh/](https://pythonhosted.org/naftawayh/)
-
-Files
-=====
-* file/directory    category    description 
- * wordtag.py: class to use word tag guessing
 
 
 

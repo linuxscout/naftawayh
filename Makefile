@@ -32,6 +32,8 @@ upload:
 	echo "use twine upload dist/naftawayh-0.3.tar.gz"
 	
 test:
-	pytest pyarabic/test_araby.py
+	python -m unittest discover tests
+test3:
+	cd tests;python3 -m unittest discover tests
 doc:
 	epydoc --config epydoc.conf
