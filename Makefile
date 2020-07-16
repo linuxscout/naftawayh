@@ -27,12 +27,12 @@ wheel:
 wheel3:
 	sudo python3 setup.py bdist_wheel
 sdist:
-	sudo python setup.py sdist
+	sudo python3 setup.py sdist
 upload:
 	echo "use twine upload dist/naftawayh-0.3.tar.gz"
 	
 test:
-	python -m unittest discover tests
+	cd tests;python -m unittest discover tests
 test3:
 	cd tests;python3 -m unittest discover tests
 doc:
