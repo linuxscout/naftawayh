@@ -11,7 +11,7 @@ import sys
 sys.path.append('../naftawayh')
 import naftawayh.wordtag
 class NaftwayhTestCase(unittest.TestCase):
-    """Tests for `Stopwords.py`."""
+    """Tests for `Naftawayh`."""
 
     def test_is_noun(self):
         """Test is_noun"""
